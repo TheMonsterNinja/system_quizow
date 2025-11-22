@@ -1,6 +1,7 @@
 # System Quizow
 
 Zadanie 1: **GOTOWE**
+
 Programowanie obiektowe:
 Zaprojektuj główne klasy systemu quizów, reprezentujące Quiz, Pytanie i Odpowiedź, stosując odpowiednie zasady programowania obiektowego.
 
