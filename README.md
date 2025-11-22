@@ -1,5 +1,7 @@
 # System Quizow
 
+## **ZADANIA 1,2,3:**
+
 Zadanie 1: **GOTOWE**
 
 Programowanie obiektowe:
@@ -13,7 +15,7 @@ Zadanie 3: **GOTOWE**
 
 Użyj generyków do zarządzania danymi związanymi z quizami.
 
-**CO UDAŁO SIĘ ZROBIĆ:**
+### **CO UDAŁO SIĘ ZROBIĆ:**
 
 Dodano podstawowy system quizów z interfejsami i generykami
 
