@@ -12,3 +12,12 @@ Interfejsy i abstrakcja: Utwórz interfejsy takie jak IQuiz, IQuestion i IAnswer
 Zadanie 3: **GOTOWE**
 
 Użyj generyków do zarządzania danymi związanymi z quizami.
+
+**CO UDAŁO SIĘ ZROBIĆ:**
+
+Dodano podstawowy system quizów z interfejsami i generykami
+
+- dodano klasy: Quiz, Pytanie, Odpowiedz
+- dodano interfejsy: IQuiz, IPytanie, IOdpowiedz
+- zaimplementowano generyczne repozytorium Repozytorium<T>
+- dodano konstruktory i listy do zarządzania danymi
