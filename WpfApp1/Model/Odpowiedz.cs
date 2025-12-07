@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WpfApp1.Model
+{
+    public class Odpowiedz : IAnswer
+    {
+        public int Id { get; set; }
+        public string Tresc { get; set; }
+        public bool CzyPoprawna { get; set; }
+
+        // Klucz obcy do pytania
+        public int QuestionId { get; set; }
+        public Pytanie Pytanie { get; set; }
+    }
+}
