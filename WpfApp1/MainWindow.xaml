@@ -24,6 +24,8 @@
             Click="PrzyciskDodaj_Click"/>
             <Button Content="Odśwież listę" Width="100" Margin="0,0,10,0"
             Click="PrzyciskOdswiez_Click"/>
+            <Button Content="Zapisz zmiany" Width="120" Margin="0,0,10,0"
+            Click="PrzyciskZapiszZmiany_Click"/>
             <Button Content="Usuń zaznaczony" Width="120"
             Click="PrzyciskUsun_Click"/>
         </StackPanel>
@@ -38,6 +40,8 @@
 
         <ListBox x:Name="ListaQuizow"
          Grid.Row="3"
-         DisplayMemberPath="Tytul" />
+         DisplayMemberPath="Tytul"
+         SelectionChanged="ListaQuizow_SelectionChanged" />
+
     </Grid>
 </Window>

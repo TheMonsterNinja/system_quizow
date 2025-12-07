@@ -90,6 +90,41 @@ namespace QuizWpf
             ZaladujQuizyZBazy();
         }
 
+        private void PrzyciskZapiszZmiany_Click(object sender, RoutedEventArgs e)
+        {
+            var zaznaczonyQuiz = ListaQuizow.SelectedItem as Quiz;
+
+            if (zaznaczonyQuiz == null)
+            {
+                MessageBox.Show("Najpierw zaznacz quiz, który chcesz zmienić.");
+                return;
+            }
+
+            var nowyTytul = PoleTytulQuizu.Text;
+
+            if (string.IsNullOrWhiteSpace(nowyTytul))
+            {
+                MessageBox.Show("Tytuł nie może być pusty.");
+                return;
+            }
+
+            using (var context = new QuizContext())
+            {
+                // Pobieramy ten sam quiz z bazy po Id
+                var quizZBazy = context.Quizy.FirstOrDefault(q => q.Id == zaznaczonyQuiz.Id);
+
+                if (quizZBazy != null)
+                {
+                    quizZBazy.Tytul = nowyTytul;
+                    context.SaveChanges();
+                }
+            }
+
+            // Po zapisaniu odświeżamy listę
+            ZaladujQuizyZBazy();
+        }
+
+
         private void ZaladujQuizyZBazy()
         {
             using (var context = new QuizContext())
@@ -137,5 +172,18 @@ namespace QuizWpf
         {
             OdswiezListeZFiltracja();
         }
+
+        private void ListaQuizow_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var zaznaczonyQuiz = ListaQuizow.SelectedItem as Quiz;
+
+            if (zaznaczonyQuiz != null)
+            {
+                // Przepisujemy tytuł do pola tekstowego,
+                // żeby można było go łatwo edytować
+                PoleTytulQuizu.Text = zaznaczonyQuiz.Tytul;
+            }
+        }
+
     }
 }
