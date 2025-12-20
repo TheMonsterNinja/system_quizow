@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model QuizRazor.Pages.Quiz.RozwiazModel
+
+@if (Model.WybranyQuiz == null)
+{
+    <p>Nie znaleziono quizu.</p>
+}
+else
+{
+    <h1>Rozwiązywanie quizu</h1>
+    <h2>@Model.WybranyQuiz.Tytul</h2>
+
+    if (Model.WybranyQuiz.Pytania == null || Model.WybranyQuiz.Pytania.Count == 0)
+    {
+        <p>Ten quiz nie ma jeszcze pytań. Dodaj je w konsoli.</p>
+    }
+    else
+    {
+        <form method="post" asp-route-id="@RouteData.Values["id"]">
+            @foreach (var pytanie in Model.WybranyQuiz.Pytania)
+            {
+                <div style="margin-bottom:20px;">
+                    <b>@pytanie.Tresc</b>
+
+                    @foreach (var odp in pytanie.Odpowiedzi)
+                    {
+                        <div>
+                            <label>
+                                <input type="radio"
+                                       name="WybranaOdpowiedzId"
+                                       value="@odp.Id" />
+                                @odp.Tresc
+                            </label>
+                        </div>
+                    }
+                </div>
+            }
+
+            <button type="submit">Sprawdź</button>
+        </form>
+        @if (Model.CzyPokazacWynik)
+        {
+            <h3>@Model.Komunikat</h3>
+        }
+
+    }
+}

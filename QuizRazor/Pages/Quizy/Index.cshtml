@@ -1,0 +1,14 @@
+﻿@page
+@model QuizRazor.Pages.Quizy.IndexModel
+
+<h1>Lista quizów</h1>
+
+<ul>
+    @foreach (var quiz in Model.ListaQuizow)
+    {
+        <li>
+            @quiz.Tytul
+            <a href="/Quizy/Rozwiaz/@quiz.Id">Rozwiąż</a>
+        </li>
+    }
+</ul>

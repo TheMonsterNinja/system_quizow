@@ -1,0 +1,28 @@
+﻿@using WpfApp1.Model
+@using System.Linq
+
+<h3>Lista quizów (Blazor)</h3>
+
+@if (lista == null)
+{
+    <p>Ładowanie...</p>
+}
+else
+{
+    <ul>
+        @foreach (var quiz in lista)
+        {
+            <li>@quiz.Tytul</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Quiz>? lista;
+
+    protected override void OnInitialized()
+    {
+        using var context = new QuizContext();
+        lista = context.Quizy.OrderBy(q => q.Tytul).ToList();
+    }
+}
