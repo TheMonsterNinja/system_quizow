@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace WpfApp1.Migrations
+namespace QuizWspolne.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
