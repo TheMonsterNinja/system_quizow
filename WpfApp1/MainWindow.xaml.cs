@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuizWpf
 {
@@ -19,10 +20,10 @@ namespace QuizWpf
         public MainWindow()
         {
             InitializeComponent();
-            ZaladujQuizyZBazy();
+            _ = ZaladujQuizyZBazyAsync(); // odpalamy asynchronicznie
         }
 
-        private void PrzyciskDodaj_Click(object sender, RoutedEventArgs e)
+        private async void PrzyciskDodaj_Click(object sender, RoutedEventArgs e)
         {
             var tytul = PoleTytulQuizu.Text;
 
@@ -45,15 +46,15 @@ namespace QuizWpf
             }
 
             PoleTytulQuizu.Clear();
-            ZaladujQuizyZBazy();
+            await ZaladujQuizyZBazyAsync();
         }
 
-        private void PrzyciskOdswiez_Click(object sender, RoutedEventArgs e)
+        private async void PrzyciskOdswiez_Click(object sender, RoutedEventArgs e)
         {
-            ZaladujQuizyZBazy();
+            await ZaladujQuizyZBazyAsync();
         }
 
-        private void PrzyciskUsun_Click(object sender, RoutedEventArgs e)
+        private async void PrzyciskUsun_Click(object sender, RoutedEventArgs e)
         {
             // 1. Pobierz zaznaczony quiz z listy
             var zaznaczonyQuiz = ListaQuizow.SelectedItem as Quiz;
@@ -86,10 +87,10 @@ namespace QuizWpf
             }
 
             // 4. Odśwież listę
-            ZaladujQuizyZBazy();
+            await ZaladujQuizyZBazyAsync();
         }
 
-        private void PrzyciskZapiszZmiany_Click(object sender, RoutedEventArgs e)
+        private async void PrzyciskZapiszZmiany_Click(object sender, RoutedEventArgs e)
         {
             var zaznaczonyQuiz = ListaQuizow.SelectedItem as Quiz;
 
@@ -120,30 +121,29 @@ namespace QuizWpf
             }
 
             // Po zapisaniu odświeżamy listę
-            ZaladujQuizyZBazy();
+            await ZaladujQuizyZBazyAsync();
         }
 
 
-        private void ZaladujQuizyZBazy()
+        private async Task ZaladujQuizyZBazyAsync()
         {
+            // Symulacja "zewnętrznego źródła" (np. API / wolna baza)
+            await Task.Delay(1200);
+
             using (var context = new QuizContext())
             {
-                var quizyZBazy = context.Quizy
+                var quizyZBazy = await context.Quizy
                     .OrderBy(q => q.Tytul)
-                    .ToList();
+                    .ToListAsync();
 
-                // Tworzymy nowy menedżer i ładujemy do niego wszystkie quizy
                 _menedzer = new MenedzerQuizow<Quiz>();
                 foreach (var quiz in quizyZBazy)
-                {
                     _menedzer.DodajQuiz(quiz);
-                }
             }
 
-            // Po załadowaniu z bazy od razu pokazujemy pełną listę,
-            // uwzględniając ewentualny tekst w polu "Szukaj"
             OdswiezListeZFiltracja();
         }
+
 
         private void OdswiezListeZFiltracja()
         {
