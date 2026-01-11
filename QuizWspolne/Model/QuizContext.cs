@@ -18,8 +18,21 @@ namespace WpfApp1.Model
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Server=(localdb)\\mssqllocaldb;Database=QuizDB;Trusted_Connection=True;");
+                    "Server=(localdb)\\MSSQLLocalDB;Database=QuizDB;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Quiz>()
+                .HasMany(q => q.Pytania)
+                .WithOne(p => p.Quiz)
+                .HasForeignKey(p => p.QuizId);
+
+            modelBuilder.Entity<Pytanie>()
+                .HasMany(p => p.Odpowiedzi)
+                .WithOne(o => o.Pytanie)
+                .HasForeignKey(o => o.QuestionId);
+        }
+
     }
 }

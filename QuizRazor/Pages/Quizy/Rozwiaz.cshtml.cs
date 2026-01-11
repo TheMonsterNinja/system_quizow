@@ -11,7 +11,7 @@ namespace QuizRazor.Pages.Quiz
         public WpfApp1.Model.Quiz? WybranyQuiz { get; set; }
 
         [BindProperty]
-        public int WybranaOdpowiedzId { get; set; }
+        public Dictionary<int, int> Wybor { get; set; } = new();
 
         public bool CzyPokazacWynik { get; set; }
         public string Komunikat { get; set; } = "";
@@ -28,25 +28,46 @@ namespace QuizRazor.Pages.Quiz
 
         public void OnPost(int id)
         {
-            // Po POST zaciągamy dane quizu jeszcze raz, żeby widok miał co wyświetlać
             OnGet(id);
-
             CzyPokazacWynik = true;
 
-            // Jeżeli nic nie zaznaczono
-            if (WybranaOdpowiedzId == 0)
+            if (WybranyQuiz == null)
             {
-                Komunikat = "Zaznacz odpowiedź zanim klikniesz Sprawdź.";
+                Komunikat = "Nie znaleziono quizu.";
+                return;
+            }
+
+
+            // jeśli nic nie zaznaczono
+            if (Wybor == null || Wybor.Count == 0)
+            {
+                Komunikat = "Zaznacz odpowiedzi zanim klikniesz Sprawdź.";
                 return;
             }
 
             using var context = new QuizContext();
-            var odp = context.Odpowiedzi.FirstOrDefault(o => o.Id == WybranaOdpowiedzId);
 
-            if (odp != null && odp.CzyPoprawna)
-                Komunikat = "Dobrze!";
-            else
-                Komunikat = "Źle!";
+            // pobieramy poprawne odpowiedzi dla quizu (szybko i prosto)
+            var poprawneIds = context.Odpowiedzi
+                .Where(o => o.CzyPoprawna)
+                .Select(o => o.Id)
+                .ToHashSet();
+
+            int poprawne = 0;
+            int wszystkie = WybranyQuiz.Pytania.Count;
+
+            foreach (var pyt in WybranyQuiz.Pytania)
+            {
+                // jeśli użytkownik nie odpowiedział na to pytanie – traktujemy jako błędne
+                if (!Wybor.TryGetValue(pyt.Id, out int wybraneOdpId))
+                    continue;
+
+                if (poprawneIds.Contains(wybraneOdpId))
+                    poprawne++;
+            }
+
+            Komunikat = $"Wynik: {poprawne}/{wszystkie}";
         }
+
     }
 }
