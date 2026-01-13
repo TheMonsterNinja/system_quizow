@@ -11,7 +11,7 @@ namespace QuizRazor.Pages.Quiz
         public WpfApp1.Model.Quiz? WybranyQuiz { get; set; }
 
         [BindProperty]
-        public Dictionary<int, int> Wybor { get; set; } = new();
+        public Dictionary<string, int> Wybor { get; set; } = new();
 
         public bool CzyPokazacWynik { get; set; }
         public string Komunikat { get; set; } = "";
@@ -59,7 +59,7 @@ namespace QuizRazor.Pages.Quiz
             foreach (var pyt in WybranyQuiz.Pytania)
             {
                 // jeśli użytkownik nie odpowiedział na to pytanie – traktujemy jako błędne
-                if (!Wybor.TryGetValue(pyt.Id, out int wybraneOdpId))
+                if (!Wybor.TryGetValue(pyt.Id.ToString(), out int wybraneOdpId))
                     continue;
 
                 if (poprawneIds.Contains(wybraneOdpId))

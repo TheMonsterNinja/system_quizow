@@ -65,7 +65,7 @@ namespace QuizWpf
                 return;
             }
 
-            // 2. Potwierdzenie (opcjonalne, ale ładnie wygląda)
+            // 2. Potwierdzenie usunięcia
             var wynik = MessageBox.Show(
                 $"Czy na pewno chcesz usunąć quiz: \"{zaznaczonyQuiz.Tytul}\"?",
                 "Potwierdzenie",
