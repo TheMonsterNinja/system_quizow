@@ -10,3 +10,4 @@
 - LINQ – wykonane
 - Razor Pages – wykonane
 - Blazor – wykonane
+- Async – wykonane
